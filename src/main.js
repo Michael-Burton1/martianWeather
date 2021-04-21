@@ -3,6 +3,7 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import PicOfDay from "./picOfDay.js";
+import InSightAPI from "./insight.js";
 
 $(document).ready(function () {
   $("#picBtn").click(function () {
@@ -21,7 +22,30 @@ $(document).ready(function () {
     }, function (error) {
       console.error("Request error: ", error);
     });
+  });
 
+  $("#displayMarsWeatherButton").click(function () {
+    console.log("mars weather button clicked!");
+    let marsWeatherPromise = InSightAPI.getWeatherData();
+    marsWeatherPromise.then(function (response) {
+      displayWeatherData(response);
+    });
   });
 });
 
+function displayWeatherData(inputResponse) {
+  let solKeys = inputResponse.sol_keys;
+  if (solKeys) {
+    let htmlString = "";
+    solKeys.forEach(function (element) {
+      const sol = inputResponse[element];
+      htmlString +=
+        `<p>Day: ${sol.First_UTC}, 
+        Season: ${sol.Season}, 
+        Pressure: ${sol.PRE.av}<p>`;
+    });
+    $("#marsWeatherDisplay").html(htmlString);
+  } else {
+    $("#marsWeatherDisplay").html(`<p>There was an error: ${inputResponse.message}</p>`);
+  }
+}
