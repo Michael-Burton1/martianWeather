@@ -5,7 +5,7 @@ export default class PicOfDay {
       let request = new XMLHttpRequest();
       const url = `https://api.nasa.gov/planetary/apod?date=${date}&api_key=${apiKey}`;
 
-      request.onload = function () { //onload is lowercase @.@
+      request.onload = function () {
         if (this.status === 200) {
           resolve(request.response);
         } else {

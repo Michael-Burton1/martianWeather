@@ -13,7 +13,11 @@ $(document).ready(function () {
     let picPromise = PicOfDay.getPic(inputtedDate);
     picPromise.then(function (response) {
       const body = JSON.parse(response);
-      $("#showPic").html(`<img src="${body.url}"/>`);
+      if (body.media_type === "image") {
+        $("#showPic").html(`<img src="${body.url}"/>`);
+      } else if (body.media_type === "video") {
+        $("#showPic").html(`<iframe src="${body.url}"></iframe>`);
+      }
     }, function (error) {
       console.error("Request error: ", error);
     });
