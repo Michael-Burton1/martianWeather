@@ -5,6 +5,7 @@ import './css/styles.css';
 import PicOfDay from "./js/picOfDay.js";
 import InSightAPI from "./js/insight.js";
 import Position from "./js/positionStack.js";
+import EarthApi from "./js/earth.js";
 
 $(document).ready(function () {
   $("#picBtn").click(function () {
@@ -40,10 +41,16 @@ $("#locationBtn").click(function() {
   let locationPromise = Position.getPosition(inputtedLocation);
   locationPromise.then(function (response) {
     const body = JSON.parse(response);
-    return $("#displayLocationInfo").html(`Latitude: ${body.data[0].latitude} Longitude: ${body.data[0].longitude}`);
-  });
+    $("#displayLocationInfo").html(`Latitude: ${body.data[0].latitude} Longitude: ${body.data[0].longitude}`);
+    return body;
+  })
+    .then(function(response){
+      const lat = response.data[0].latitude;
+      const lon = response.data[0].longitude;
+      let earthImagePromise = EarthApi.getImage(lat, lon);
+    
+    });
 });
-
 
 function displayWeatherData(inputResponse) {
   let solKeys = inputResponse.sol_keys;
