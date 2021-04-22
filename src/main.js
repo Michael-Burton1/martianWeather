@@ -43,12 +43,23 @@ $("#locationBtn").click(function() {
     const body = JSON.parse(response);
     $("#displayLocationInfo").html(`Latitude: ${body.data[0].latitude} Longitude: ${body.data[0].longitude}`);
     return body;
+  }, function(error){
+    throw Error(`Geocode API error: ${error}`);
   })
-    .then(function(response){
-      const lat = response.data[0].latitude;
-      const lon = response.data[0].longitude;
+    .then(function(locationResponse){
+      const lat = locationResponse.data[0].latitude;
+      const lon = locationResponse.data[0].longitude;
       let earthImagePromise = EarthApi.getImage(lat, lon);
-    
+      return earthImagePromise;
+    })
+    .then(function(earthResponse){ //ignore everything dealing with Earth API for example
+      if (earthResponse instanceof Error){ // dont let instanceof ruin your day. its all lowercase
+        throw Error(`Earth API error: ${earthResponse.message}`);
+      }
+      $("#displayMap").html(`<img src="${earthResponse}"/>`);
+    })
+    .catch(function(error) {
+      $("#displayLocationInfo").html(`<p>${error.message}</p>`);
     });
 });
 
