@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+    <title>SpaceY</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="jumbotron">
+        <img class="spaceYLogo" src="/images/spacey.jpg" alt="spaceY logo" />
+      </h1>
 
-  <title>SpaceY</title>
-</head>
-<body>
-  <div class="container">
+      <h2>Please Enter a Date Below!</h2>
 
-    <h1 class="jumbotron"><img class="spaceYLogo" src="/images/spacey.jpg" alt="spaceY logo"></h1>
-    
+      <form action="selectDate">
+        <label for="date">Date:</label>
+        <input type="date" id="inputtedDate" />
+        <button id="picBtn" type="button" class="btn btn-lg btn-primary">
+          Submit!
+        </button>
+      </form>
 
-    <h2>Please Enter a Date Below!</h2>    
+      <p id="showPic"></p>
 
-    <form action="selectDate">
-      <label for="date">Date:</label>
-      <input type="date" id="inputtedDate">
-      <button id="picBtn" type="button" class="btn btn-lg btn-primary">Submit!</button>
-    </form>
+      <button
+        type="button"
+        id="displayMarsWeatherButton"
+        class="btn btn-lg btn-secondary"
+      >
+        Show Mars Weather Data
+      </button>
+      <div id="marsWeatherDisplay"></div>
 
-    <p id="showPic"></p>
-
-    <button type="button" id="displayMarsWeatherButton" class="btn btn-lg btn-secondary">Show Mars Weather Data</button>
-    <div id="marsWeatherDisplay"></div>
-  </div>
-</body>
+      <form id="locationForm">
+        <label for="address">Type an address:</label>
+        <input type="text" id="inputtedLocation" />
+        <button type="button" class="btn btn-warning" id="locationBtn">
+          Do it Rockapella!
+        </button>
+      </form>
+      <div id="displayLocationInfo"></div>
+    </div>
+  </body>
 </html>

@@ -2,8 +2,9 @@ import $ from 'jquery';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
-import PicOfDay from "./picOfDay.js";
-import InSightAPI from "./insight.js";
+import PicOfDay from "./js/picOfDay.js";
+import InSightAPI from "./js/insight.js";
+import Position from "./js/positionStack.js";
 
 $(document).ready(function () {
   $("#picBtn").click(function () {
@@ -25,13 +26,24 @@ $(document).ready(function () {
   });
 
   $("#displayMarsWeatherButton").click(function () {
-    console.log("mars weather button clicked!");
     let marsWeatherPromise = InSightAPI.getWeatherData();
     marsWeatherPromise.then(function (response) {
       displayWeatherData(response);
     });
   });
 });
+
+$("#locationBtn").click(function() {
+  let inputtedLocation = $("#inputtedLocation").val();
+  $("#show").text(inputtedLocation);
+
+  let locationPromise = Position.getPosition(inputtedLocation);
+  locationPromise.then(function (response) {
+    const body = JSON.parse(response);
+    return $("#displayLocationInfo").html(`Latitude: ${body.data[0].latitude} Longitude: ${body.data[0].longitude}`);
+  });
+});
+
 
 function displayWeatherData(inputResponse) {
   let solKeys = inputResponse.sol_keys;
